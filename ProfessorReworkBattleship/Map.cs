@@ -34,11 +34,29 @@ namespace ProfessorReworkBattleship
                 {
                     if (BattleMap[x, y].GetShip != null)
                     {
-                        temp = BattleMap[x, y].HasShip = true;
+                        temp = BattleMap[x, y].HasShip = true; // if ship is placed at current location return true else false
                     }
                 }
             }
             return temp;           
+        }
+
+        public void ClearMap()
+        {
+            for (int x = 0; x < BattleMap.GetLength(0); x++)
+            {
+                for (int y = 0; y < BattleMap.GetLength(1); y++)
+                {
+                    if (BattleMap[x, y].IsPlaced == false)
+                    {
+                        BattleMap[x, y].GetShip = null; // resets ship to next location to move it around without placing it everytime
+                        if (BattleMap[x, y].FieldCharacter == "x")
+                        {
+                            BattleMap[x, y].FieldCharacter = "~"; // resets the x to next location to move it around without placing it everytime
+                        }
+                    }
+                }
+            }
         }
     }
 }
