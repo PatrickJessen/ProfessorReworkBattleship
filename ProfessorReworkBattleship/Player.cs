@@ -6,9 +6,7 @@ namespace ProfessorReworkBattleship
 {
     class Player : Controller
     {
-        public override List<Ship> Ships { get; set; } = new List<Ship>();
-        public Position pos = new Position();
-
+        bool rotateShip = false;
         /// <summary>
         /// Place your ships
         /// </summary>
@@ -26,15 +24,15 @@ namespace ProfessorReworkBattleship
                     {
                         if (isRotated && map.IsSpotsEmpty()) // rotates ships horizontally
                         {
-                            map.BattleMap[pos.x + x, pos.y].IsPlaced = isPlaced; // check if i placed ship or not
-                            map.BattleMap[pos.x + x, pos.y].GetShip = Ships[i]; // get current ship in list
-                            Ships[i].Pos = new Position { x = pos.x, y = pos.y }; // saves the x and y position on each ship
+                            map.BattleMap[Pos.x + x, Pos.y].IsPlaced = isPlaced; // check if i placed ship or not
+                            map.BattleMap[Pos.x + x, Pos.y].GetShip = Ships[i]; // get current ship in list
+                            Ships[i].Pos = new Position { x = Pos.x, y = Pos.y }; // saves the x and y position on each ship
                         }
                         else if (!isRotated && map.IsSpotsEmpty()) // rotates ships vertically
                         {
-                            map.BattleMap[pos.x, pos.y + x].IsPlaced = isPlaced;
-                            map.BattleMap[pos.x, pos.y + x].GetShip = Ships[i];
-                            Ships[i].Pos = new Position { x = pos.x, y = pos.y };
+                            map.BattleMap[Pos.x, Pos.y + x].IsPlaced = isPlaced;
+                            map.BattleMap[Pos.x, Pos.y + x].GetShip = Ships[i];
+                            Ships[i].Pos = new Position { x = Pos.x, y = Pos.y };
                         }
                     }
                     catch
@@ -54,24 +52,55 @@ namespace ProfessorReworkBattleship
         {
             for (int i = 0; i < ships.Count; i++)
             {
-                if (pos.x == ships[i].Pos.x && pos.y == ships[i].Pos.y && isPlaced) // if i hit a ship location make fieldcharacter "o" else make it "x"
+                if (Pos.x == ships[i].Pos.x && Pos.y == ships[i].Pos.y && isPlaced) // if i hit a ship location make fieldcharacter "o" else make it "x"
                 {
-                    map.BattleMap[pos.x, pos.y].FieldCharacter = "o";
+                    map.BattleMap[Pos.x, Pos.y].FieldCharacter = "o";
                 }
                 else if (isPlaced)
                 {
-                    map.BattleMap[pos.x, pos.y].FieldCharacter = "x";
+                    map.BattleMap[Pos.x, Pos.y].FieldCharacter = "x";
                 }
             }
         }
 
-        public override void AddShips()
+        public void Navigation(Map map)
         {
-            Ships.Add(new Ship("H", 5, pos, ConsoleColor.Red));
-            Ships.Add(new Ship("S", 4, pos, ConsoleColor.Blue));
-            Ships.Add(new Ship("D", 3, pos, ConsoleColor.Yellow));
-            Ships.Add(new Ship("U", 3, pos, ConsoleColor.Green));
-            Ships.Add(new Ship("P", 2, pos, ConsoleColor.Magenta));
+            if (Input.KeyState(ConsoleKey.UpArrow))
+            {
+                Pos.y--;
+                PlaceShip(map, rotateShip, false);
+            }
+            else if (Input.KeyState(ConsoleKey.DownArrow))
+            {
+                Pos.y++;
+                PlaceShip(map, rotateShip, false);
+            }
+            else if (Input.KeyState(ConsoleKey.LeftArrow))
+            {
+                Pos.x--;
+                PlaceShip(map, rotateShip, false);
+            }
+            else if (Input.KeyState(ConsoleKey.RightArrow))
+            {
+                Pos.x++;
+                PlaceShip(map, rotateShip, false);
+            }
+        }
+
+        public void EnterAndRotate(Map map)
+        {
+            if (Input.KeyState(ConsoleKey.B))
+            {
+                rotateShip = true;
+            }
+            else if (Input.KeyState(ConsoleKey.N))
+            {
+                rotateShip = false;
+            }
+            else if (Input.KeyState(ConsoleKey.Enter))
+            {
+                PlaceShip(map, rotateShip, true);
+            }
         }
     }
 }

@@ -7,14 +7,20 @@ namespace ProfessorReworkBattleship
 {
     class Input
     {
+        static ConsoleKey keyInfo = Console.ReadKey().Key;
         public static bool KeyState(ConsoleKey key)
         {
-            //ConsoleKeyInfo newKey = new ConsoleKeyInfo();
-            if (Console.ReadKey().Key == key)
+            if (keyInfo == key)
             {
+                keyInfo = 0;
                 return true;
             }
             return false;
+        }
+
+        public static void UpdateKey()
+        {
+            keyInfo = Console.ReadKey().Key;
         }
     }
 }

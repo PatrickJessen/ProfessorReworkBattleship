@@ -11,37 +11,35 @@ namespace ProfessorReworkBattleship
         Thread input = new Thread(StartThread);
         private static void StartThread()
         {
-            //while (true)
-            Input.KeyState(0);
+            while (true)
+                Input.UpdateKey();
+            //Input.KeyState(0);
         }
 
         public void GameLoop()
         {
             input.Start();
-            input.IsBackground = true;
+            //input.IsBackground = true;
             while (true)
             {
-                if (Input.KeyState(ConsoleKey.G))
-                {
-                    Console.WriteLine("test");
-                }
-                if (Input.KeyState(ConsoleKey.F))
-                {
-                    Console.WriteLine("test2");
-                }
-                if (Input.KeyState(ConsoleKey.A))
-                {
-                    Console.WriteLine("test2");
-                }
+                test();
             }
 
         }
 
-        public void test()
+        public static void test()
         {
             if (Input.KeyState(ConsoleKey.G))
             {
                 Console.WriteLine("test");
+            }
+            else if (Input.KeyState(ConsoleKey.F))
+            {
+                Console.WriteLine("test2");
+            }
+            else if (Input.KeyState(ConsoleKey.A))
+            {
+                Console.WriteLine("test2");
             }
         }
 

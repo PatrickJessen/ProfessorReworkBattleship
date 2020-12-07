@@ -10,5 +10,6 @@ namespace ProfessorReworkBattleship
             Draw draw = new Draw();
             draw.GameLoop();
         }
+       
     }
 }

@@ -25,6 +25,7 @@ namespace ProfessorReworkBattleship
             }
         }
 
+        // skal nok slettes
         public bool IsSpotsEmpty()
         {
             bool temp = false;

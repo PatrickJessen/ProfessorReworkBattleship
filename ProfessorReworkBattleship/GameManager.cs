@@ -6,6 +6,7 @@ namespace ProfessorReworkBattleship
 {
     class GameManager
     {
-
+        Player player = new Player();
+        AI ai = new AI();
     }
 }
