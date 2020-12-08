@@ -7,7 +7,9 @@ namespace ProfessorReworkBattleship
 {
     class Draw
     {
-        Map map = new Map(10, 20);
+        Map Playermap = new Map(10, 20);
+        Map AImap = new Map(10, 20);
+        GameManager manager = new GameManager();
         Thread input = new Thread(StartThread);
         private static void StartThread()
         {
@@ -19,37 +21,36 @@ namespace ProfessorReworkBattleship
         public void GameLoop()
         {
             input.Start();
-            //input.IsBackground = true;
+
+            manager.AddShipsToList();
             while (true)
             {
-                test();
+                DrawMap(Playermap);
+                manager.PlayerManager(Playermap);
+                Console.SetCursorPosition(0, 0);
+                //DrawMap(AImap);
+                //manager.AIManager(AImap);
+                //Console.SetCursorPosition(0, 0);
             }
 
         }
 
-        public static void test()
+        public void DrawMap(Map playerMap)
         {
-            if (Input.KeyState(ConsoleKey.G))
+            for (int x = 0; x < playerMap.BattleMap.GetLength(0); x++)
             {
-                Console.WriteLine("test");
-            }
-            else if (Input.KeyState(ConsoleKey.F))
-            {
-                Console.WriteLine("test2");
-            }
-            else if (Input.KeyState(ConsoleKey.A))
-            {
-                Console.WriteLine("test2");
-            }
-        }
-
-        public void DrawMap()
-        {
-            for (int x = 0; x < map.BattleMap.GetLength(0); x++)
-            {
-                for (int y = 0; y < map.BattleMap.GetLength(1); y++)
+                for (int y = 0; y < playerMap.BattleMap.GetLength(1); y++)
                 {
-                    Console.Write(map.BattleMap[x, y].FieldCharacter);
+                    if (playerMap.BattleMap[x, y].GetShip != null)
+                    {
+                        Console.ForegroundColor = playerMap.BattleMap[x, y].GetShip.Color;
+                        Console.Write(playerMap.BattleMap[x, y].GetShip.ShipCharacter);
+                    }
+                    else
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.Write(playerMap.BattleMap[x, y].FieldCharacter);
+                    }
                 }
                 Console.WriteLine();
             }

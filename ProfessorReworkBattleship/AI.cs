@@ -14,36 +14,44 @@ namespace ProfessorReworkBattleship
 
         public override void PlaceShip(Map map, bool isRotated, bool isPlaced)
         {
-            for (int i = 0; i < Ships.Count; i++)
+            try
             {
-                Pos.x = rand.Next(0, map.Height - Ships[i].ShipLength);
-                Pos.y = rand.Next(0, map.Width - Ships[i].ShipLength);
-                for (int x = 0; x < Ships[i].ShipLength; x++)
+
+                for (int i = 0; i < Ships.Count; i++)
                 {
-                    if (RandomRotate() == isRotated && map.IsSpotsEmpty())
+                    Pos.x = rand.Next(0, map.Height - Ships[i].ShipLength);
+                    Pos.y = rand.Next(0, map.Width - Ships[i].ShipLength);
+                    for (int x = 0; x < Ships[i].ShipLength; x++)
                     {
-                        map.BattleMap[Pos.x + x, Pos.y].IsPlaced = isPlaced;
-                        map.BattleMap[Pos.x + x, Pos.y].GetShip = Ships[i];
-                        Ships[i].Pos = new Position { x = Pos.x, y = Pos.y };
-                    }
-                    else if (RandomRotate() == !isRotated && map.IsSpotsEmpty())
-                    {
-                        map.BattleMap[Pos.x, Pos.y + x].IsPlaced = isPlaced;
-                        map.BattleMap[Pos.x, Pos.y + x].GetShip = Ships[i];
-                        Ships[i].Pos = new Position { x = Pos.x, y = Pos.y };
+                        if (RandomRotate() == isRotated && !map.BattleMap[Pos.x, Pos.y].HasShip && Ships.Count > 0)
+                        {
+                            map.BattleMap[Pos.x + x, Pos.y].IsPlaced = true;
+                            map.BattleMap[Pos.x + x, Pos.y].GetShip = Ships[i];
+                            Ships[i].Pos = new Position { x = Pos.x, y = Pos.y };
+                        }
+                        else if (RandomRotate() == !isRotated && !map.BattleMap[Pos.x, Pos.y].HasShip && Ships.Count > 0)
+                        {
+                            map.BattleMap[Pos.x, Pos.y + x].IsPlaced = true;
+                            map.BattleMap[Pos.x, Pos.y + x].GetShip = Ships[i];
+                            Ships[i].Pos = new Position { x = Pos.x, y = Pos.y };
+                        }
                     }
                 }
             }
+            catch
+            {
+
+            }
         }
 
-        public override void ShootShip(Map map, List<Ship> ships, bool isPlaced)
+        public override void ShootShip(Map map, bool isPlaced)
         {
-            if (!LastTurnHit(ships))
+            if (!LastTurnHit(Ships))
             {
                 Pos.x = rand.Next(0, map.Height);
                 Pos.y = rand.Next(0, map.Width);
             }
-            else if (LastTurnHit(ships))
+            else if (LastTurnHit(Ships))
             {
 
             }

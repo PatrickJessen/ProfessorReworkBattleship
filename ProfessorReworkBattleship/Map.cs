@@ -25,23 +25,6 @@ namespace ProfessorReworkBattleship
             }
         }
 
-        // skal nok slettes
-        public bool IsSpotsEmpty()
-        {
-            bool temp = false;
-            for (int x = 0; x < BattleMap.GetLength(0); x++)
-            {
-                for (int y = 0; y < BattleMap.GetLength(1); y++)
-                {
-                    if (BattleMap[x, y].GetShip != null)
-                    {
-                        temp = BattleMap[x, y].HasShip = true; // if ship is placed at current location return true else false
-                    }
-                }
-            }
-            return temp;           
-        }
-
         public void ClearMap()
         {
             for (int x = 0; x < BattleMap.GetLength(0); x++)
